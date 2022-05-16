@@ -1,6 +1,7 @@
 package com.marysugar.compose_clean_architecture_blueprint.di
 
 import com.marysugar.compose_clean_architecture_blueprint.api.JsonPlaceHolderService
+import com.marysugar.compose_clean_architecture_blueprint.ui.main.MainRepository
 import com.marysugar.compose_clean_architecture_blueprint.ui.main.MainViewModel
 import dagger.Module
 import dagger.Provides
@@ -10,12 +11,12 @@ import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object ViewModelModule {
+object RepositoryModule {
   @Provides
   @ViewModelScoped
-  fun provideMainViewModel(
+  fun provideRepositoryModule(
     jsonPlaceHolderService: JsonPlaceHolderService
-  ): MainViewModel {
-    return MainViewModel(jsonPlaceHolderService)
+  ): MainRepository {
+    return MainRepository(jsonPlaceHolderService)
   }
 }

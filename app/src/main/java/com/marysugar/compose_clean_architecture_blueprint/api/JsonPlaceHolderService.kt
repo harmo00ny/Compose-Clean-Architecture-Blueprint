@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface JsonPlaceHolderService {
   @GET("posts/1")
-  fun getPosts(): Call<Post>
+  fun getPost(): Call<Post>
 }
