@@ -6,7 +6,7 @@ import com.marysugar.compose_clean_architecture_blueprint.data.Post
 
 @Composable
 fun PostsScreen(
-  post: List<Post>
+  post: Post
 ) {
   SimpleText(post.toString())
 }

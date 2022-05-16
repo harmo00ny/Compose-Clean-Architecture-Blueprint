@@ -1,17 +1,14 @@
 package com.marysugar.compose_clean_architecture_blueprint.di
 
-import android.content.Context
 import com.marysugar.compose_clean_architecture_blueprint.api.JsonPlaceHolderService
-import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -20,7 +17,7 @@ object AppModule {
 
   @Provides
   @Singleton
-  fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
+  fun provideOkHttpClient(): OkHttpClient {
     return OkHttpClient.Builder()
       .addInterceptor(
         interceptor = HttpLoggingInterceptor().apply {
@@ -34,8 +31,7 @@ object AppModule {
   fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
     return Retrofit.Builder()
       .baseUrl("https://jsonplaceholder.typicode.com/")
-      .addConverterFactory(MoshiConverterFactory.create())
-      .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
+      .addConverterFactory(GsonConverterFactory.create())
       .client(okHttpClient)
       .build()
   }

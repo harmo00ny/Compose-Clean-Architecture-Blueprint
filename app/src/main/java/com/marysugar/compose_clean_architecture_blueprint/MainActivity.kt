@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
     Timber.plant(Timber.DebugTree())
 
     val mainViewModel: MainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-    mainViewModel.postList.observe(this) {
+    mainViewModel.post.observe(this) {
       setContent {
         ComposeCleanArchitectureBlueprintTheme {
           PostsScreen(it)
