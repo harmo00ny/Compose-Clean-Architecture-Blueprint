@@ -16,13 +16,29 @@ class MainRepository @Inject constructor(
       val task = jsonPlaceHolderService.getPost()
       task.enqueue(object : retrofit2.Callback<Post> {
         override fun onResponse(call: Call<Post>, response: Response<Post>) {
-          if (response.code() == 200) {
+          if (response.isSuccessful) {
             it.resume(response.body()!!)
           }
         }
 
-        override fun onFailure(call: Call<Post>, t: Throwable?) {
-          // Do something
+        override fun onFailure(call: Call<Post>, t: Throwable) {
+          t.stackTrace
+        }
+      })
+    }
+  }
+  suspend fun getPosts(): List<Post> {
+    return suspendCoroutine {
+      val task = jsonPlaceHolderService.getPosts()
+      task.enqueue(object : retrofit2.Callback<List<Post>> {
+        override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
+          if (response.isSuccessful) {
+            it.resume(response.body().orEmpty())
+          }
+        }
+
+        override fun onFailure(call: Call<List<Post>>, t: Throwable) {
+          t.stackTrace
         }
       })
     }
