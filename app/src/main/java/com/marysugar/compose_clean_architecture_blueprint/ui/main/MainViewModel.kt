@@ -21,9 +21,9 @@ class MainViewModel @Inject constructor(
   private val _posts = MutableLiveData<List<Post>>()
   val posts: LiveData<List<Post>> get() = _posts
 
-  private fun loadPost() {
+  fun loadPost(id: String) {
     viewModelScope.launch {
-      _post.value = mainRepository.getPost()
+      _post.value = mainRepository.getPost(id)
     }
   }
 
@@ -34,7 +34,6 @@ class MainViewModel @Inject constructor(
   }
 
   init {
-    loadPost()
     loadPosts()
   }
 }

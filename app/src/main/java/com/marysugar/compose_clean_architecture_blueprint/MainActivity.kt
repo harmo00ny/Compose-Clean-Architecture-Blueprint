@@ -6,6 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.marysugar.compose_clean_architecture_blueprint.ui.main.MainViewModel
+import com.marysugar.compose_clean_architecture_blueprint.ui.main.PostScreen
 import com.marysugar.compose_clean_architecture_blueprint.ui.main.PostsScreen
 import com.marysugar.compose_clean_architecture_blueprint.ui.theme.ComposeCleanArchitectureBlueprintTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +28,19 @@ class MainActivity : ComponentActivity() {
 
     setContent {
       ComposeCleanArchitectureBlueprintTheme {
-        PostsScreen()
+        val navController = rememberNavController()
+        NavHost(navController = navController, startDestination = "postsScreen") {
+          composable("postsScreen") {
+            val viewModel: MainViewModel = hiltViewModel()
+            PostsScreen(viewModel, navController = navController)
+          }
+          composable(
+            route = "posts/{postId}",
+            arguments = listOf(navArgument("postId") { type = NavType.StringType })
+          ) { backStackEntry ->
+            PostScreen(navController, backStackEntry.arguments?.getString("postId"))
+          }
+        }
       }
     }
   }
